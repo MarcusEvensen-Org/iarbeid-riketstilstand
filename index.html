@@ -36,6 +36,9 @@ body{
 #bg.dark{background:var(--green-d)}
 #bg.light{background:var(--cream-l)}
 #bg.alt{background:var(--cream-d)}
+#bg.alarm{background:#65251A}
+#bg.alarm .blob.b1{background:rgba(151,202,49,.16)}
+#bg.alarm .blob.b2{background:rgba(233,167,147,.22)}
 .blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;transition:background-color .8s var(--ease),opacity .8s var(--ease)}
 .blob.b1{width:46vw;height:46vw;left:-8vw;top:-14vw;background:rgba(151,202,49,.22);animation:float1 26s ease-in-out infinite}
 .blob.b2{width:40vw;height:40vw;right:-6vw;bottom:-16vw;background:rgba(227,206,152,.3);animation:float2 32s ease-in-out infinite}
@@ -136,6 +139,12 @@ b,strong{font-weight:600}
 .bar-fill.grey{background:var(--grey)}
 .bar-val{font-size:29px;font-weight:600;letter-spacing:-.015em;text-align:right}
 .slide.active .bar-fill{animation:barGrow 1.15s var(--ease) both;animation-delay:var(--dly,0ms)}
+.bar-stack{display:flex;height:100%;gap:3px}
+.bar-stack i{display:block;height:100%;width:0;border-radius:8px;flex:none}
+.slide.active .bar-stack i{animation:barGrow 1.15s var(--ease) both;animation-delay:var(--dly,0ms)}
+.legend.legend-sm{gap:12px 26px;padding-top:2px}
+.legend.legend-sm span{font-size:17px;gap:9px}
+.legend.legend-sm i{width:13px;height:13px;border-radius:3px}
 @keyframes barGrow{from{width:0}to{width:var(--w)}}
 
 .cmp{display:flex;flex-direction:column;gap:18px}
@@ -555,9 +564,9 @@ b,strong{font-weight:600}
 </section>
 
 <!-- 9 ─ SITAT: DET BURDE VÆRE EN NASJONAL ALARM -->
-<section class="slide dark" data-tone="dark" data-title="Sitat: Det burde være en nasjonal alarm">
+<section class="slide dark" data-tone="alarm" data-title="Sitat: Det burde være en nasjonal alarm">
   <div class="fill col gap-l" style="justify-content:center">
-    <div class="badge lg terra r" data-a="pop"><svg class="ic"><use href="#i-bell"/></svg></div>
+    <div class="badge lg sand r" data-a="pop"><svg class="ic"><use href="#i-bell"/></svg></div>
     <p class="q" style="font-size:98px">
       <span class="mask" data-step="120"><span>Det burde være en</span></span>
       <span class="mask" data-step="120"><span style="color:#E9A793">nasjonal alarm.</span></span>
@@ -622,15 +631,31 @@ b,strong{font-weight:600}
       </div>
       <hr class="rule r" data-a="clip" data-gap="60" data-step="140">
       <div class="bar-row r" data-step="140">
-        <span class="bar-lab" style="color:var(--lime);font-weight:600">til arbeidsmarkedstiltak</span>
-        <div class="bar-track"><div class="bar-fill lime" style="--w:8.25%"></div></div>
-        <span class="bar-val accent">11,6 mrd</span>
+        <span class="bar-lab" style="color:var(--lime);font-weight:600">til arbeidsrettet innsats</span>
+        <div class="bar-track">
+          <div class="bar-stack">
+            <i style="--w:8.25%;background:var(--lime)"></i>
+            <i style="--w:11.8%;background:var(--sand)"></i>
+            <i style="--w:5.7%;background:var(--tan)"></i>
+            <i style="--w:3.2%;background:var(--brown)"></i>
+          </div>
+        </div>
+        <span class="bar-val accent">≈ 40 mrd</span>
+      </div>
+      <div class="bar-row r" data-step="140" style="align-items:start">
+        <span></span>
+        <div class="legend legend-sm">
+          <span><i style="background:var(--lime)"></i>Arbeidsmarkedstiltak</span>
+          <span><i style="background:var(--sand)"></i>NAV</span>
+          <span><i style="background:var(--tan)"></i>Integreringstiltak</span>
+          <span><i style="background:var(--brown)"></i>Fylkeskommune</span>
+        </div>
       </div>
     </div>
   </div>
   <div class="row r" data-gap="70" style="gap:26px;align-items:center">
     <div class="badge sm sand"><svg class="ic"><use href="#i-wallet"/></svg></div>
-    <p class="lead">Til sammen over <b>280 milliarder kroner</b>.</p>
+    <p class="lead">Til sammen over <b>280 milliarder kroner</b> i inntektssikring.</p>
   </div>
 </section>
 
@@ -1209,7 +1234,7 @@ b,strong{font-weight:600}
     s.classList.remove('active'); void s.offsetWidth; s.classList.add('active');
     var tone=s.dataset.tone;
     bg.className=tone;
-    chrome.classList.toggle('light-ui', tone!=='dark');
+    chrome.classList.toggle('light-ui', !s.classList.contains('dark'));
     prog.style.width=((i+1)/N*100)+'%';
     count.innerHTML='<b>'+pad(i+1)+'</b> / '+N;
     label.textContent=s.dataset.title||'';
