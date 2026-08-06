@@ -251,16 +251,6 @@ b,strong{font-weight:600}
 #count{left:32px;bottom:28px}
 #count b{font-weight:700;font-size:17px;opacity:1}
 #label{left:32px;top:26px;max-width:520px;text-transform:uppercase;font-size:13px;letter-spacing:.22em;opacity:.5}
-#nav{right:28px;bottom:24px;pointer-events:auto;gap:10px}
-.nb{width:44px;height:44px;border-radius:50%;border:1.5px solid currentColor;background:none;
-  color:inherit;display:grid;place-items:center;font-size:19px;cursor:pointer;opacity:.6;
-  transition:opacity .2s,background-color .2s,transform .2s}
-.nb:hover{opacity:1;background:rgba(151,202,49,.22);transform:translateY(-2px)}
-.nb:disabled{opacity:.18;cursor:default;transform:none;background:none}
-.nb.flip .ic{transform:rotate(180deg)}
-#hint{right:32px;top:26px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.4}
-#hint kbd{font-family:inherit;font-weight:600;border:1px solid currentColor;border-radius:5px;
-  padding:2px 7px;margin:0 2px;font-size:11px;opacity:.85}
 
 /* ── overview ───────────────────────────────────────────── */
 #ov{position:fixed;inset:0;z-index:10;background:rgba(27,34,20,.97);color:var(--cream);
@@ -1129,12 +1119,7 @@ b,strong{font-weight:600}
 <div id="prog"></div>
 <div id="chrome">
   <div class="ui" id="label"></div>
-  <div class="ui" id="hint"><kbd>&larr;</kbd><kbd>&rarr;</kbd> bla &nbsp;·&nbsp; <kbd>O</kbd> oversikt &nbsp;·&nbsp; <kbd>F</kbd> fullskjerm</div>
-  <div class="ui" id="count"><b>01</b> / 24</div>
-  <div class="ui" id="nav">
-    <button class="nb flip" id="bPrev" aria-label="Forrige"><svg class="ic"><use href="#i-arrow-right"/></svg></button>
-    <button class="nb" id="bNext" aria-label="Neste"><svg class="ic"><use href="#i-arrow-right"/></svg></button>
-  </div>
+  <div class="ui" id="count"><b>01</b> / 28</div>
 </div>
 
 <div id="ov"><h4>Oversikt &nbsp;·&nbsp; trykk O eller Esc for å lukke</h4><div class="og" id="ovGrid"></div></div>
@@ -1208,8 +1193,7 @@ b,strong{font-weight:600}
 
   /* ---- navigation ------------------------------------------ */
   var prog=document.getElementById('prog'), count=document.getElementById('count'),
-      label=document.getElementById('label'), chrome=document.getElementById('chrome'),
-      bPrev=document.getElementById('bPrev'), bNext=document.getElementById('bNext');
+      label=document.getElementById('label'), chrome=document.getElementById('chrome');
   var pad=function(n){return (n<10?'0':'')+n;};
 
   function go(i){
@@ -1229,7 +1213,6 @@ b,strong{font-weight:600}
     prog.style.width=((i+1)/N*100)+'%';
     count.innerHTML='<b>'+pad(i+1)+'</b> / '+N;
     label.textContent=s.dataset.title||'';
-    bPrev.disabled=(i===0); bNext.disabled=(i===N-1);
     counters(s);
     if(history.replaceState) history.replaceState(null,'','#'+(i+1));
     [].forEach.call(document.querySelectorAll('#ovGrid button'),function(b,k){
@@ -1267,8 +1250,6 @@ b,strong{font-weight:600}
       e.preventDefault();
     }
   });
-  bNext.onclick=function(e){e.stopPropagation();go(cur+1);};
-  bPrev.onclick=function(e){e.stopPropagation();go(cur-1);};
   document.getElementById('stage').addEventListener('click',function(e){
     if(ov.classList.contains('on')) return;
     go(e.clientX < innerWidth*0.28 ? cur-1 : cur+1);
